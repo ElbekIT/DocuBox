@@ -33,7 +33,8 @@ if (keystorePropertiesFile.exists()) {
 
 android {
     namespace "com.docubox.app"
-    compileSdkVersion 34
+    compileSdk = 36
+    compileSdkVersion 36
     ndkVersion flutter.ndkVersion
 
     compileOptions {
@@ -43,6 +44,9 @@ android {
 
     kotlinOptions {
         jvmTarget = '17'
+        freeCompilerArgs += [
+            "-Xskip-metadata-version-check"
+        ]
     }
 
     sourceSets {
