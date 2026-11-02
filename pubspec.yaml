@@ -1,0 +1,65 @@
+name: docubox
+description: "DocuBox — Native Android Universal Suite (Google Play & GitHub Automation)"
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.3.0 <4.0.0'
+  flutter: '>=3.19.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # UI, Typography & Animations
+  cupertino_icons: ^1.0.8
+  google_fonts: ^6.2.1
+  flutter_animate: ^4.5.0
+  intl: ^0.19.0
+
+  # System & Device Hardware
+  permission_handler: ^11.3.1
+  path_provider: ^2.1.3
+  path: ^1.9.0
+  file_picker: ^8.0.5
+  open_filex: ^4.5.0
+  share_plus: ^9.0.0
+  package_info_plus: ^8.0.0
+  url_launcher: ^6.3.0
+
+  # In-App Updates & GitHub Releases
+  in_app_update: ^4.2.3
+  http: ^1.2.1
+
+  # Intelligent Document Scanner & ML Kit
+  google_mlkit_document_scanner: ^0.2.0
+  camera: ^0.11.0+1
+  image: ^4.2.0
+
+  # PDF Engine & Native Viewer
+  pdf: ^3.11.1
+  printing: ^5.13.2
+  flutter_pdfview: ^1.3.2
+
+  # Universal Archiver (ZIP, 7Z, TAR, GZ)
+  archive: ^3.6.1
+
+  # Universal Office Parsers
+  excel: ^4.0.3
+  csv: ^6.0.0
+  xml: ^6.5.0
+
+  # Cryptography & Vault (Military-Grade AES-256)
+  crypto: ^3.0.3
+  pointycastle: ^3.7.4
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.2
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/icons/

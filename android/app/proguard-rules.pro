@@ -1,0 +1,50 @@
+# Flutter Wrapper & Engine
+-keep class io.flutter.app.** { *; }
+-keep class io.flutter.plugin.**  { *; }
+-keep class io.flutter.util.**  { *; }
+-keep class io.flutter.view.**  { *; }
+-keep class io.flutter.** { *; }
+-keep class io.flutter.plugins.**  { *; }
+
+# Google Play In-App Update Engine
+-keep class com.google.android.play.core.appupdate.** { *; }
+-keep class com.google.android.play.core.tasks.** { *; }
+-keep class com.google.android.play.core.install.** { *; }
+
+# Google ML Kit Document Scanner & Vision
+-keep class com.google.mlkit.** { *; }
+-keep class com.google.android.gms.vision.** { *; }
+-keep class com.google.android.gms.internal.mlkit_vision_** { *; }
+-keep class com.google.android.gms.tasks.** { *; }
+-keep class com.google.android.gms.common.** { *; }
+-keepattributes *Annotation*
+-keepattributes Signature
+-keepattributes InnerClasses
+-keepattributes EnclosingMethod
+
+# Native Archives, Compression & I/O
+-keep class org.apache.commons.compress.** { *; }
+-keep class com.github.junrar.** { *; }
+-dontwarn org.bouncycastle.**
+-dontwarn javax.annotation.**
+
+# AndroidX Window & Display Calibration
+-keep class androidx.window.** { *; }
+-keep class androidx.core.view.** { *; }
+
+# OkHttp & Retrofit Networking (Update Service & GitHub Releases)
+-dontwarn okhttp3.**
+-dontwarn okio.**
+-keep class okhttp3.** { *; }
+-keep interface okhttp3.** { *; }
+
+# PDF Rendering Native Engine (pdfview)
+-keep class com.github.barteksc.pdfviewer.** { *; }
+-keep class com.shockwave.pdfium.** { *; }
+
+# General optimization settings
+-repackageclasses
+-allowaccessmodification
+-dontusemixedcaseclassnames
+-dontskipnonpubliclibraryclasses
+-verbose
