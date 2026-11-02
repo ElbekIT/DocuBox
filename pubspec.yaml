@@ -23,7 +23,7 @@ dependencies:
   path: ^1.9.0
   file_picker: ^8.0.5
   open_filex: ^4.5.0
-  share_plus: ^9.0.0
+  share_plus: ^10.1.4
   package_info_plus: ^8.0.0
   url_launcher: ^6.3.0
 
@@ -38,7 +38,6 @@ dependencies:
 
   # PDF Engine & Native Viewer
   pdf: ^3.11.1
-  printing: ^5.13.2
   flutter_pdfview: ^1.3.2
 
   # Universal Archiver (ZIP, 7Z, TAR, GZ)
