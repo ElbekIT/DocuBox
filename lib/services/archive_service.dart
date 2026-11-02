@@ -337,6 +337,7 @@ class ArchiveService {
       }
     }
 
+    final encoder = ZipEncoder();
     final zipData = encoder.encode(archive, level: Deflate.BEST_COMPRESSION);
     if (zipData == null) {
       throw Exception('Failed to encode ZIP archive.');
