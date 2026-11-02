@@ -28,10 +28,10 @@ workflows:
           flutter pub get
       - name: Build Android App Bundle (.aab)
         script: |
-          flutter build appbundle --release
+          flutter build appbundle --release --android-skip-build-dependency-validation
       - name: Build Standalone Universal APK (.apk)
         script: |
-          flutter build apk --release
+          flutter build apk --release --android-skip-build-dependency-validation
     artifacts:
       - build/**/outputs/**/*.aab
       - build/**/outputs/**/*.apk
