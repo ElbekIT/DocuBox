@@ -337,20 +337,17 @@ class ArchiveService {
       }
     }
 
-    final encoder = ZipEncoder();
-    Uint8List zipBytes;
-
-    if (password != null && password.isNotEmpty) {
-      zipBytes = Uint8List.fromList(encoder.encode(archive, level: Deflate.BEST_COMPRESSION, password: password)!);
-    } else {
-      zipBytes = Uint8List.fromList(encoder.encode(archive, level: Deflate.BEST_COMPRESSION)!);
+    final zipData = encoder.encode(archive, level: Deflate.BEST_COMPRESSION);
+    if (zipData == null) {
+      throw Exception('Failed to encode ZIP archive.');
     }
+    final Uint8List zipBytes = Uint8List.fromList(zipData);
 
-    // If military-grade AES-256 container encryption is requested:
+    // If password is provided, encrypt container with military-grade AES-256:
     Uint8List finalOutputBytes = zipBytes;
     String finalExtension = '.zip';
 
-    if (useAes256 && password != null && password.isNotEmpty) {
+    if (password != null && password.isNotEmpty) {
       finalOutputBytes = _encryptContainerAes256(zipBytes, password);
       finalExtension = '.dbx.aes'; // DocuBox AES-256 encrypted container
     }

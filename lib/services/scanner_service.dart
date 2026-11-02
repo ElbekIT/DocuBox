@@ -42,7 +42,6 @@ class ScannerService {
         documentFormat: DocumentFormat.jpeg,
         mode: ScannerMode.full,
         pageLimit: pageLimit,
-        isGalleryImportAllowed: true,
       );
 
       final documentScanner = DocumentScanner(options: options);
