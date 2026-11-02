@@ -1,0 +1,37 @@
+workflows:
+  android-release:
+    name: Android Release Build (AAB & APK)
+    max_build_duration: 30
+    instance_type: mac_mini_m2
+    environment:
+      flutter: stable
+      java: 17
+    scripts:
+      - name: Set up code signing
+        script: |
+          set -e
+          echo "Setting up keystore and key.properties..."
+          mkdir -p android/app
+          cat << 'EOF' | base64 --decode > android/app/upload-keystore.jks
+          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
+          EOF
+          cp android/app/upload-keystore.jks android/upload-keystore.jks
+
+          cat << 'EOF' > android/key.properties
+          storePassword=AlgorixSecurePass2026!
+          keyPassword=AlgorixSecurePass2026!
+          keyAlias=algorix-upload
+          storeFile=upload-keystore.jks
+          EOF
+      - name: Get dependencies
+        script: |
+          flutter pub get
+      - name: Build Android App Bundle (.aab)
+        script: |
+          flutter build appbundle --release
+      - name: Build Standalone Universal APK (.apk)
+        script: |
+          flutter build apk --release
+    artifacts:
+      - build/**/outputs/**/*.aab
+      - build/**/outputs/**/*.apk

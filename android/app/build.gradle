@@ -69,13 +69,24 @@ android {
 
     signingConfigs {
         release {
-            def keyFilePath = System.getenv('DOCUBOX_KEYSTORE_PATH') ?: keystoreProperties['storeFile']
+            def keyFileName = System.getenv('DOCUBOX_KEYSTORE_PATH') ?: keystoreProperties['storeFile']
             def storePwd = System.getenv('DOCUBOX_KEYSTORE_PASSWORD') ?: keystoreProperties['storePassword']
             def keyAliasVal = System.getenv('DOCUBOX_KEY_ALIAS') ?: keystoreProperties['keyAlias']
             def keyPwd = System.getenv('DOCUBOX_KEY_PASSWORD') ?: keystoreProperties['keyPassword']
 
-            if (keyFilePath && file(keyFilePath).exists() && storePwd && keyAliasVal && keyPwd) {
-                storeFile file(keyFilePath)
+            def resolvedFile = null
+            if (keyFileName) {
+                if (file(keyFileName).exists()) {
+                    resolvedFile = file(keyFileName)
+                } else if (rootProject.file(keyFileName).exists()) {
+                    resolvedFile = rootProject.file(keyFileName)
+                } else if (rootProject.file("app/${keyFileName}").exists()) {
+                    resolvedFile = rootProject.file("app/${keyFileName}")
+                }
+            }
+
+            if (resolvedFile != null && storePwd && keyAliasVal && keyPwd) {
+                storeFile resolvedFile
                 storePassword storePwd
                 keyAlias keyAliasVal
                 keyPassword keyPwd
