@@ -53,8 +53,8 @@ class UpdateService {
   UpdateService._internal();
   static final UpdateService instance = UpdateService._internal();
 
-  static const String gitHubOwner = 'docubox';
-  static const String gitHubRepo = 'docubox';
+  static const String gitHubOwner = 'ElbekIT';
+  static const String gitHubRepo = 'DocuBox';
 
   AppUpdateInfo? _playUpdateInfo;
   bool _flexibleUpdateInProgress = false;
