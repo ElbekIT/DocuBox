@@ -33,7 +33,7 @@ dependencies:
 
   # Intelligent Document Scanner, OCR & Barcode Scanning
   google_mlkit_document_scanner: ^0.2.0
-  google_mlkit_text_recognition: ^0.13.0
+  google_mlkit_text_recognition: ^0.14.0
   google_mlkit_barcode_scanning: ^0.13.0
   qr_flutter: ^4.1.0
   camera: ^0.11.0+1
