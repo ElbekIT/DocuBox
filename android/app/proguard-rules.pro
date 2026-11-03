@@ -1,3 +1,13 @@
+# Suppress unresolved optional dependency warnings
+-ignorewarnings
+-dontwarn com.google.android.play.core.**
+-dontwarn io.flutter.embedding.engine.deferredcomponents.**
+-dontwarn io.flutter.embedding.android.FlutterPlayStoreSplitApplication
+-dontwarn org.bouncycastle.**
+-dontwarn javax.annotation.**
+-dontwarn okhttp3.**
+-dontwarn okio.**
+
 # Flutter Wrapper & Engine
 -keep class io.flutter.app.** { *; }
 -keep class io.flutter.plugin.**  { *; }
@@ -25,16 +35,12 @@
 # Native Archives, Compression & I/O
 -keep class org.apache.commons.compress.** { *; }
 -keep class com.github.junrar.** { *; }
--dontwarn org.bouncycastle.**
--dontwarn javax.annotation.**
 
 # AndroidX Window & Display Calibration
 -keep class androidx.window.** { *; }
 -keep class androidx.core.view.** { *; }
 
 # OkHttp & Retrofit Networking (Update Service & GitHub Releases)
--dontwarn okhttp3.**
--dontwarn okio.**
 -keep class okhttp3.** { *; }
 -keep interface okhttp3.** { *; }
 
@@ -43,8 +49,6 @@
 -keep class com.shockwave.pdfium.** { *; }
 
 # General optimization settings
--repackageclasses
--allowaccessmodification
 -dontusemixedcaseclassnames
 -dontskipnonpubliclibraryclasses
 -verbose
