@@ -10,6 +10,9 @@ import '../core/services/update_service.dart';
 import '../core/theme/app_theme.dart';
 import 'archive_screen.dart';
 import 'document_viewer_screen.dart';
+import 'ocr_screen.dart';
+import 'pdf_tools_screen.dart';
+import 'qr_barcode_screen.dart';
 import 'scanner_screen.dart';
 import 'vault_screen.dart';
 
@@ -51,6 +54,12 @@ class _HomeDashboardScreenState extends State<HomeDashboardScreen> {
 
       final vaultDir = Directory(p.join(docsDir.path, 'DocuBox_Vault'));
       if (await vaultDir.exists()) found.addAll(vaultDir.listSync());
+
+      final ocrDir = Directory(p.join(docsDir.path, 'DocuBox_OCR'));
+      if (await ocrDir.exists()) found.addAll(ocrDir.listSync());
+
+      final pdfToolsDir = Directory(p.join(docsDir.path, 'DocuBox_PdfTools'));
+      if (await pdfToolsDir.exists()) found.addAll(pdfToolsDir.listSync());
 
       // Sort by modified time descending
       found.sort((a, b) {
@@ -292,14 +301,14 @@ class _HomeDashboardScreenState extends State<HomeDashboardScreen> {
               ),
               SizedBox(height: 12.h),
 
-              // 2x2 Suite Feature Grid
+              // Suite Feature Grid (Expanded Suite)
               GridView.count(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 crossAxisCount: 2,
                 crossAxisSpacing: 12.w,
                 mainAxisSpacing: 12.h,
-                childAspectRatio: 1.15,
+                childAspectRatio: 1.10,
                 children: [
                   _buildSuiteCard(
                     title: 'Intelligent Scanner',
@@ -348,6 +357,49 @@ class _HomeDashboardScreenState extends State<HomeDashboardScreen> {
                         MaterialPageRoute(builder: (_) => const VaultScreen()),
                       ).then((_) => _loadRecentFiles());
                     },
+                  ),
+                  _buildSuiteCard(
+                    title: 'Offline OCR Engine',
+                    description: 'Extract text on-device from photos & export TXT/PDF',
+                    icon: Icons.text_snippet_rounded,
+                    accentColor: AppTheme.purpleAccent,
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const OcrScreen()),
+                      ).then((_) => _loadRecentFiles());
+                    },
+                  ),
+                  _buildSuiteCard(
+                    title: 'PDF Studio & Sign',
+                    description: 'Watermark, digital sign pad & compress PDF',
+                    icon: Icons.draw_rounded,
+                    accentColor: AppTheme.roseAccent,
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const PdfToolsScreen()),
+                      ).then((_) => _loadRecentFiles());
+                    },
+                  ),
+                  _buildSuiteCard(
+                    title: 'QR & Wi-Fi Key Hub',
+                    description: 'Reveal Wi-Fi passwords from QR & generate codes',
+                    icon: Icons.qr_code_scanner_rounded,
+                    accentColor: AppTheme.cyanAccent,
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const QrBarcodeScreen()),
+                      ).then((_) => _loadRecentFiles());
+                    },
+                  ),
+                  _buildSuiteCard(
+                    title: 'Hardware Matrix',
+                    description: 'Screen calibration & zero-cutoff diagnostics',
+                    icon: Icons.tune_rounded,
+                    accentColor: AppTheme.amberAccent,
+                    onTap: _showCalibrationDialog,
                   ),
                 ],
               ),
@@ -556,6 +608,8 @@ class _HomeDashboardScreenState extends State<HomeDashboardScreen> {
         return Icons.inventory_2;
       case '.aes':
         return Icons.lock;
+      case '.txt':
+        return Icons.text_snippet;
       default:
         return Icons.insert_drive_file;
     }
@@ -576,8 +630,10 @@ class _HomeDashboardScreenState extends State<HomeDashboardScreen> {
         return AppTheme.amberAccent;
       case '.aes':
         return AppTheme.cyanAccent;
-      default:
+      case '.txt':
         return AppTheme.purpleAccent;
+      default:
+        return AppTheme.textMuted;
     }
   }
 
