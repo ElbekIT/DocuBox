@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:open_filex/open_filex.dart';
 import 'package:path/path.dart' as p;
@@ -14,6 +15,7 @@ enum DocumentType {
   docx,
   excel,
   csv,
+  text,
   unknown,
 }
 
@@ -45,6 +47,9 @@ class _DocumentViewerScreenState extends State<DocumentViewerScreen> with Single
   // Word DOCX State
   DocxDocumentData? _docxData;
 
+  // Text State
+  String? _textContent;
+
   @override
   void initState() {
     super.initState();
@@ -55,8 +60,7 @@ class _DocumentViewerScreenState extends State<DocumentViewerScreen> with Single
 
   Future<void> _pickDocument() async {
     final result = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: ['pdf', 'docx', 'xlsx', 'xls', 'csv'],
+      type: FileType.any,
     );
 
     if (result != null && result.files.single.path != null) {
@@ -95,8 +99,29 @@ class _DocumentViewerScreenState extends State<DocumentViewerScreen> with Single
           _workbookData = csvWb;
           _activeSheetIndex = 0;
         });
+      } else if (ext == '.txt' ||
+          ext == '.json' ||
+          ext == '.xml' ||
+          ext == '.log' ||
+          ext == '.md' ||
+          ext == '.html' ||
+          ext == '.css' ||
+          ext == '.js') {
+        _docType = DocumentType.text;
+        final text = await File(path).readAsString();
+        setState(() {
+          _textContent = text;
+        });
       } else {
-        _docType = DocumentType.unknown;
+        try {
+          final text = await File(path).readAsString();
+          _docType = DocumentType.text;
+          setState(() {
+            _textContent = text;
+          });
+        } catch (_) {
+          _docType = DocumentType.unknown;
+        }
       }
     } catch (e) {
       if (mounted) {
@@ -239,6 +264,8 @@ class _DocumentViewerScreenState extends State<DocumentViewerScreen> with Single
             if (_docType == DocumentType.pdf) _buildPdfViewer(),
             if (_docType == DocumentType.docx) _buildDocxViewer(),
             if (_docType == DocumentType.excel || _docType == DocumentType.csv) _buildSpreadsheetViewer(),
+            if (_docType == DocumentType.text) _buildTextViewer(),
+            if (_docType == DocumentType.unknown) _buildUnknownViewer(),
           ],
 
           // Loading Overlay
@@ -641,5 +668,134 @@ class _DocumentViewerScreenState extends State<DocumentViewerScreen> with Single
       num = ((num - modulo) / 26).floor();
     }
     return dividend;
+  }
+
+  Widget _buildTextViewer() {
+    return Container(
+      color: AppTheme.background,
+      width: double.infinity,
+      height: double.infinity,
+      child: Column(
+        children: [
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
+            decoration: BoxDecoration(
+              color: AppTheme.surface,
+              border: Border(bottom: BorderSide(color: AppTheme.border)),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    const Icon(Icons.text_snippet_outlined, color: AppTheme.purpleAccent, size: 18),
+                    SizedBox(width: 8.w),
+                    Text(
+                      'Plain Text Document',
+                      style: TextStyle(
+                        color: AppTheme.textPrimary,
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+                TextButton.icon(
+                  onPressed: () {
+                    if (_textContent != null) {
+                      Clipboard.setData(ClipboardData(text: _textContent!));
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Document text copied to clipboard!')),
+                      );
+                    }
+                  },
+                  icon: const Icon(Icons.copy, size: 16, color: AppTheme.cyanAccent),
+                  label: const Text('Copy All', style: TextStyle(color: AppTheme.cyanAccent, fontSize: 12)),
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: SingleChildScrollView(
+              padding: EdgeInsets.all(16.w),
+              child: SelectableText(
+                _textContent ?? '',
+                style: TextStyle(
+                  color: AppTheme.textPrimary,
+                  fontSize: 13.sp,
+                  fontFamily: 'monospace',
+                  height: 1.45,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildUnknownViewer() {
+    final fileName = _filePath != null ? p.basename(_filePath!) : 'Unknown File';
+    final fileExt = _filePath != null ? p.extension(_filePath!).toUpperCase() : '';
+
+    return Center(
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 24.w),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              padding: EdgeInsets.all(20.r),
+              decoration: BoxDecoration(
+                color: AppTheme.surface,
+                shape: BoxShape.circle,
+                border: Border.all(color: AppTheme.border),
+              ),
+              child: Icon(Icons.insert_drive_file_outlined, size: 48.r, color: AppTheme.amberAccent),
+            ),
+            SizedBox(height: 16.h),
+            Text(
+              fileName,
+              style: TextStyle(
+                color: AppTheme.textPrimary,
+                fontSize: 16.sp,
+                fontWeight: FontWeight.bold,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 6.h),
+            Text(
+              fileExt.isNotEmpty ? '$fileExt Document' : 'Binary File',
+              style: TextStyle(color: AppTheme.textSecondary, fontSize: 13.sp),
+            ),
+            SizedBox(height: 24.h),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton.icon(
+                  onPressed: () {
+                    if (_filePath != null) {
+                      OpenFilex.open(_filePath!);
+                    }
+                  },
+                  icon: const Icon(Icons.launch),
+                  label: const Text('Open in External App'),
+                ),
+                SizedBox(width: 12.w),
+                OutlinedButton.icon(
+                  onPressed: () {
+                    if (_filePath != null) {
+                      Share.shareXFiles([XFile(_filePath!)]);
+                    }
+                  },
+                  icon: const Icon(Icons.share),
+                  label: const Text('Share'),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

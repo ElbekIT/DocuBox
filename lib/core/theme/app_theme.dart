@@ -37,7 +37,7 @@ class AppTheme {
         onSurface: textPrimary,
       ),
       fontFamily: GoogleFonts.inter().fontFamily,
-      cardTheme: CardThemeData(
+      cardTheme: CardTheme(
         color: cardSurface,
         elevation: 0,
         shape: RoundedRectangleBorder(

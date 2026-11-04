@@ -6,6 +6,7 @@ import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 import '../core/calibration/screen_calibrator.dart';
+import '../core/services/file_intent_service.dart';
 import '../core/services/update_service.dart';
 import '../core/theme/app_theme.dart';
 import 'archive_screen.dart';
@@ -32,8 +33,9 @@ class _HomeDashboardScreenState extends State<HomeDashboardScreen> {
     super.initState();
     _loadRecentFiles();
 
-    // Proactive background update check (silent)
+    // Bind context for incoming files from Telegram/WhatsApp and check background updates
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      FileIntentService.instance.setContext(context);
       UpdateService.instance.checkForUpdates(context, silent: true);
     });
   }
