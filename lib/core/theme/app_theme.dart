@@ -37,14 +37,6 @@ class AppTheme {
         onSurface: textPrimary,
       ),
       fontFamily: GoogleFonts.inter().fontFamily,
-      cardTheme: CardTheme(
-        color: cardSurface,
-        elevation: 0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-          side: const BorderSide(color: border, width: 1),
-        ),
-      ),
       appBarTheme: const AppBarTheme(
         backgroundColor: background,
         elevation: 0,
