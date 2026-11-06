@@ -56,7 +56,7 @@ android {
     defaultConfig {
         applicationId "com.docubox.app"
         minSdkVersion 24
-        targetSdkVersion 34
+        targetSdkVersion 36
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
 
