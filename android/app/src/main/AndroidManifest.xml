@@ -22,10 +22,6 @@
     <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
     <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
 
-    <!-- Full Universal Storage Access for ZArchiver-Grade file system operations -->
-    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
-        tools:ignore="ScopedStorage" />
-
     <!-- Hardware Camera Feature declarations -->
     <uses-feature android:name="android.hardware.camera" android:required="false"/>
     <uses-feature android:name="android.hardware.camera.autofocus" android:required="false"/>
@@ -36,11 +32,10 @@
         android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher"
         android:hardwareAccelerated="true"
-        android:requestLegacyExternalStorage="true"
         android:largeHeap="true"
         android:usesCleartextTraffic="false"
         android:extractNativeLibs="true"
-        tools:targetApi="34">
+        tools:targetApi="36">
 
         <activity
             android:name=".MainActivity"
@@ -62,17 +57,16 @@
             </intent-filter>
 
             <!-- Universal PDF Document Intent Filter (MIME Type) -->
-            <intent-filter tools:ignore="AppLinkUrlError">
+            <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
                 <data android:scheme="content"/>
                 <data android:scheme="file"/>
                 <data android:mimeType="application/pdf"/>
             </intent-filter>
 
             <!-- Universal Word Document Intent Filter (MIME Type) -->
-            <intent-filter tools:ignore="AppLinkUrlError">
+            <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
                 <data android:scheme="content"/>
@@ -82,7 +76,7 @@
             </intent-filter>
 
             <!-- Universal Excel & CSV Intent Filter (MIME Type) -->
-            <intent-filter tools:ignore="AppLinkUrlError">
+            <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
                 <data android:scheme="content"/>
@@ -94,7 +88,7 @@
             </intent-filter>
 
             <!-- Universal Archive Intent Filter (MIME Type) -->
-            <intent-filter tools:ignore="AppLinkUrlError">
+            <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
                 <data android:scheme="content"/>
@@ -111,7 +105,7 @@
             </intent-filter>
 
             <!-- Universal Text & Code Document Intent Filter (MIME Type) -->
-            <intent-filter tools:ignore="AppLinkUrlError">
+            <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
                 <data android:scheme="content"/>
@@ -121,7 +115,7 @@
             </intent-filter>
 
             <!-- Universal File Extension Fallback (for apps sending */* or octet-stream) -->
-            <intent-filter tools:ignore="AppLinkUrlError">
+            <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
                 <data android:scheme="content"/>

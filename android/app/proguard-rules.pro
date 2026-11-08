@@ -8,6 +8,9 @@
 -dontwarn okhttp3.**
 -dontwarn okio.**
 
+# DocuBox App Package & Native Method Channels
+-keep class com.docubox.app.** { *; }
+
 # Flutter Wrapper & Engine
 -keep class io.flutter.app.** { *; }
 -keep class io.flutter.plugin.**  { *; }
@@ -16,7 +19,17 @@
 -keep class io.flutter.** { *; }
 -keep class io.flutter.plugins.**  { *; }
 
+# Essential Flutter Plugin Keep Rules
+-keep class com.mr.flutter.plugin.filepicker.** { *; }
+-keep class com.crazecoder.openfile.** { *; }
+-keep class dev.fluttercommunity.plus.share.** { *; }
+-keep class dev.fluttercommunity.plus.packageinfo.** { *; }
+-keep class io.flutter.plugins.urllauncher.** { *; }
+-keep class io.flutter.plugins.camera.** { *; }
+-keep class com.google_mlkit_commons.** { *; }
+
 # Google Play In-App Update Engine
+-keep class com.google.android.play.core.** { *; }
 -keep class com.google.android.play.core.appupdate.** { *; }
 -keep class com.google.android.play.core.tasks.** { *; }
 -keep class com.google.android.play.core.install.** { *; }

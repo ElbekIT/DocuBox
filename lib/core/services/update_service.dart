@@ -86,14 +86,16 @@ class UpdateService {
       debugPrint('[UpdateService] Google Play In-App Update check bypassed: $e');
     }
 
-    // 2. Direct Fallback: Check GitHub Releases API endpoint
+    // 2. Direct Fallback: Check GitHub Releases API endpoint (only for explicit manual checks to comply with Google Play policies)
     try {
-      final release = await checkGitHubRelease();
-      if (release != null) {
-        final isNewer = await _isNewerVersion(release.tagName);
-        if (isNewer && context.mounted) {
-          _showGitHubUpdateDialog(context, release);
-          return;
+      if (!silent) {
+        final release = await checkGitHubRelease();
+        if (release != null) {
+          final isNewer = await _isNewerVersion(release.tagName);
+          if (isNewer && context.mounted) {
+            _showGitHubUpdateDialog(context, release);
+            return;
+          }
         }
       }
 
@@ -304,13 +306,13 @@ class UpdateService {
             ElevatedButton(
               onPressed: () async {
                 Navigator.of(ctx).pop();
-                final targetUrl = release.apkDownloadUrl ?? release.htmlUrl;
+                final targetUrl = release.htmlUrl.isNotEmpty ? release.htmlUrl : 'https://github.com/$gitHubOwner/$gitHubRepo/releases';
                 final uri = Uri.parse(targetUrl);
                 if (await canLaunchUrl(uri)) {
                   await launchUrl(uri, mode: LaunchMode.externalApplication);
                 }
               },
-              child: const Text('Download Update'),
+              child: const Text('View Update'),
             ),
           ],
         );

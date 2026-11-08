@@ -90,7 +90,17 @@ class _HomeDashboardScreenState extends State<HomeDashboardScreen> {
         context,
         MaterialPageRoute(builder: (_) => ArchiveScreen(initialArchivePath: filePath)),
       ).then((_) => _loadRecentFiles());
-    } else if (ext == '.pdf' || ext == '.docx' || ext == '.xlsx' || ext == '.xls' || ext == '.csv') {
+    } else if (ext == '.pdf' ||
+        ext == '.docx' ||
+        ext == '.doc' ||
+        ext == '.xlsx' ||
+        ext == '.xls' ||
+        ext == '.csv' ||
+        ext == '.txt' ||
+        ext == '.json' ||
+        ext == '.xml' ||
+        ext == '.log' ||
+        ext == '.md') {
       Navigator.push(
         context,
         MaterialPageRoute(builder: (_) => DocumentViewerScreen(initialFilePath: filePath)),
